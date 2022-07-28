@@ -24,7 +24,6 @@ class TextFormFieldWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String? error;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -46,7 +45,6 @@ class TextFormFieldWidget extends StatelessWidget {
                 fontSize: 14.0,
               ),
               errorStyle: TextStyle(color: Colors.green),
-              errorText: error,
               border: InputBorder.none,
               floatingLabelStyle: const TextStyle(color: kPrimaryColor),
             ),
@@ -54,10 +52,7 @@ class TextFormFieldWidget extends StatelessWidget {
             onChanged: onChanged,
           ),
         ),
-        Padding(
-          padding: const EdgeInsets.only(left: 10.0, top: 6.0),
-          child: Text(error!),
-        ),
+        const Text("Text"),
       ],
     );
   }
