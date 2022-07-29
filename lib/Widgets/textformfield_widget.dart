@@ -10,50 +10,78 @@ class TextFormFieldWidget extends StatelessWidget {
   final Color? borderColor;
   final Function(String?)? onChanged;
   final String? Function(String?)? validator;
+  final AutovalidateMode? autovalidateMode;
+  final Widget? suffixIcon;
   const TextFormFieldWidget({
     Key? key,
     required this.controller,
     this.obscureText = false,
     required this.label,
-    this.labelColor = kSecondaryColor,
-    this.bgColor = kPrimaryLightColor,
-    this.borderColor = kPrimaryLightColor,
+    this.labelColor,
+    this.bgColor,
+    this.borderColor,
     this.onChanged,
     this.validator,
+    this.autovalidateMode,
+    this.suffixIcon,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Container(
-          width: double.infinity,
-          padding: const EdgeInsets.symmetric(horizontal: 12.0),
-          decoration: BoxDecoration(
-            color: bgColor,
-            border: Border.all(color: borderColor!, width: 1.0),
+    return SizedBox(
+      width: double.infinity,
+      child: TextFormField(
+        controller: controller,
+        obscureText: obscureText!,
+        maxLines: 1,
+        autovalidateMode: autovalidateMode,
+        decoration: InputDecoration(
+          hintText: label,
+          hintStyle: TextStyle(color: labelColor, fontSize: 15.0),
+          filled: true,
+          fillColor: bgColor,
+          contentPadding: const EdgeInsets.symmetric(horizontal: 12.0),
+          errorBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12.0),
-          ),
-          child: TextFormField(
-            controller: controller,
-            obscureText: obscureText!,
-            decoration: InputDecoration(
-              labelText: label,
-              labelStyle: TextStyle(
-                color: labelColor,
-                fontSize: 14.0,
-              ),
-              errorStyle: TextStyle(color: Colors.green),
-              border: InputBorder.none,
-              floatingLabelStyle: const TextStyle(color: kPrimaryColor),
+            borderSide: BorderSide(
+              color: Colors.red[200]!,
+              width: 1.0,
             ),
-            validator: validator,
-            onChanged: onChanged,
           ),
+          focusedErrorBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12.0),
+            borderSide: BorderSide(
+              color: Colors.red[200]!,
+              width: 1.0,
+            ),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12.0),
+            borderSide: const BorderSide(
+              color: kPrimaryLightColor,
+              width: 1.0,
+            ),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12.0),
+            borderSide: BorderSide(
+              color: borderColor!,
+              width: 1.0,
+            ),
+          ),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12.0),
+            borderSide: const BorderSide(
+              color: kPrimaryUltraLightColor,
+              width: 1.0,
+            ),
+          ),
+          floatingLabelStyle: const TextStyle(color: kPrimaryColor),
+          suffixIcon: suffixIcon,
         ),
-        const Text("Text"),
-      ],
+        validator: validator,
+        onChanged: onChanged,
+      ),
     );
   }
 }

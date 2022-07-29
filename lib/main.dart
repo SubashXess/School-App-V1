@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:school_app/Screens/dashboard_page.dart';
 import 'package:school_app/Screens/loginpage.dart';
 import 'package:school_app/Screens/school_id_login.dart';
 import 'package:school_app/Screens/start_page.dart';
@@ -19,10 +20,11 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.deepPurple,
         fontFamily: 'SF Pro Display',
       ),
-      home: const LoginPage(),
+      home: const DashboardPage(),
       routes: {
         '/school_id_page': (context) => const SchoolIDPage(),
         '/login_page': (context) => const LoginPage(),
+        'dashboard_page': (context) => const DashboardPage(),
       },
     );
   }

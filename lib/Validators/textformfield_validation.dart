@@ -20,4 +20,14 @@ class TextFieldValidation {
       return null;
     }
   }
+
+  static String? schoolIDValidation(String? schoolID) {
+    if (schoolID == null || schoolID.isEmpty) {
+      return "Required";
+    } else if (schoolID.length < 6) {
+      return "Enter valid ID";
+    } else {
+      return null;
+    }
+  }
 }

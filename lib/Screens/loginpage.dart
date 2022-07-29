@@ -21,6 +21,26 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController _studentIDController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
+  bool _isHidePassword = true;
+
+  @override
+  void initState() {
+    _passwordController.addListener(onListen);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _studentIDController.dispose();
+    _passwordController.removeListener(onListen);
+    _passwordController.dispose();
+  }
+
+  void onListen() {
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -30,7 +50,6 @@ class _LoginPageState extends State<LoginPage> {
         body: Container(
           width: double.infinity,
           height: double.infinity,
-          // padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 16.0),
           child: SingleChildScrollView(
             child: SafeArea(
               child: Padding(
@@ -38,10 +57,9 @@ class _LoginPageState extends State<LoginPage> {
                     horizontal: 12.0, vertical: 16.0),
                 child: Form(
                   key: _formKey,
-                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                  // autovalidateMode: AutovalidateMode.onUserInteraction,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       InkWell(
                         onTap: () => Navigator.pop(context),
@@ -105,10 +123,12 @@ class _LoginPageState extends State<LoginPage> {
                         children: [
                           TextFormFieldWidget(
                             controller: _studentIDController,
+                            autovalidateMode:
+                                AutovalidateMode.onUserInteraction,
                             label: "Student ID",
-                            labelColor: kPrimaryColor,
-                            borderColor: kPrimaryLightColor,
-                            bgColor: kPrimaryUltraLightColor.withOpacity(0.6),
+                            labelColor: kPrimaryColor.withAlpha(160),
+                            borderColor: kPrimaryUltraLightColor,
+                            bgColor: kPrimaryUltraLightColor,
                             validator: TextFieldValidation.studentIDValidation,
                             onChanged: (value) {
                               print(value);
@@ -117,11 +137,25 @@ class _LoginPageState extends State<LoginPage> {
                           SizedBox(height: size.height * 0.012),
                           TextFormFieldWidget(
                             controller: _passwordController,
+                            autovalidateMode:
+                                AutovalidateMode.onUserInteraction,
+                            obscureText: _isHidePassword,
                             label: "Password",
-                            labelColor: kPrimaryColor,
-                            borderColor: kPrimaryLightColor,
-                            bgColor: kPrimaryUltraLightColor.withOpacity(0.6),
+                            labelColor: kPrimaryColor.withAlpha(160),
+                            borderColor: kPrimaryUltraLightColor,
+                            bgColor: kPrimaryUltraLightColor,
                             validator: TextFieldValidation.passwordValidation,
+                            suffixIcon: _passwordController.text.isEmpty
+                                ? Container(width: 0.0)
+                                : InkWell(
+                                    onTap: () => togglePasswordVisibility(),
+                                    child: Icon(
+                                      color: kPrimaryColor.withAlpha(160),
+                                      _isHidePassword
+                                          ? Icons.visibility_off_rounded
+                                          : Icons.visibility_rounded,
+                                    ),
+                                  ),
                             onChanged: (value) {
                               print(value);
                             },
@@ -149,7 +183,8 @@ class _LoginPageState extends State<LoginPage> {
                           RoundedButtonWidget(
                             onPressed: () {
                               if (_formKey.currentState!.validate()) {
-                                print("Success");
+                                Navigator.of(context)
+                                    .pushNamed('dashboard_page');
                               } else {
                                 print("Error");
                               }
@@ -169,5 +204,11 @@ class _LoginPageState extends State<LoginPage> {
         ),
       ),
     );
+  }
+
+  togglePasswordVisibility() {
+    setState(() {
+      _isHidePassword = !_isHidePassword;
+    });
   }
 }
