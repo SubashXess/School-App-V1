@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.deepPurple,
         fontFamily: 'SF Pro Display',
       ),
-      home: const DashboardPage(),
+      home: const StartPage(),
       routes: {
         '/school_id_page': (context) => const SchoolIDPage(),
         '/login_page': (context) => const LoginPage(),
